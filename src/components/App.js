@@ -41,9 +41,29 @@ class App extends Component {
     }
   };
 
+  handleToggle = id => {
+    const { todos } = this.state;
+
+    // will find item by id received from params
+    const index = todos.findIndex(todo => todo.id === id);
+    const selected = todos[index]; // selected item
+
+    const nextTodos = [...todos]; // copy array(spread syntax)
+
+    // copy previous values, overwrite value of checked(spread syntax)
+    nextTodos[index] = {
+      ...selected,
+      checked: !selected.checked
+    };
+
+    this.setState({
+      todos: nextTodos
+    });
+  };
+
   render() {
     const { input, todos } = this.state;
-    const { handleChange, handleCreate, handleKeyPress } = this;
+    const { handleChange, handleCreate, handleKeyPress, handleToggle } = this;
 
     return (
       <TodoListTemplate
@@ -56,7 +76,7 @@ class App extends Component {
           />
         }
       >
-        <TodoItemList todos={todos} />
+        <TodoItemList todos={todos} onToggle={handleToggle} />
       </TodoListTemplate>
     );
   }
@@ -94,6 +114,29 @@ Since concat is making new array you can optimize the performance!
 const { handleChange, handleCreate, handleKeyPress } = this;
 used destructing assignments. So in this case we can skip
 this.handleChange, this.handleCreate, this.handleKeyPress
+
+--------------------------------------------
+handleToggle() can be changed like this:
+
+  handleToggle = (id) => {
+    const { todos } = this.state;
+    const index = todos.findIndex(todo => todo.id === id);
+
+    const selected = todos[index];
+
+    this.setState({
+      todos: [
+        ...todos.slice(0, index),
+        {
+          ...selected,
+          checked: !selected.checked
+        },
+        ...todos.slice(index + 1, todos.length)
+      ]
+    });
+  }
+
+--------------------------------------------
 
 
 */
