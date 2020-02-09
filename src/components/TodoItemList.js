@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import TodoItem from "./TodoItem";
 
 class TodoItemList extends Component {
+  // choose to re-render or not(default setting is true)
+  shouldComponentUpdate(nextProps, nextState) {
+    // re-render when only this.props.todos !== nextProps.todos
+    return this.props.todos !== nextProps.todos;
+  }
+
   render() {
     const { todos, onToggle, onRemove } = this.props;
 

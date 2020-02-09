@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import "./stylesheets/TodoItem.css";
 
 class TodoItem extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    // re-render when only this.props.checked !== nextProps.checked
+    // when item is deleted nothing re-render
+    return this.props.checked !== nextProps.checked;
+  }
+
   render() {
     const { text, checked, id, onToggle, onRemove } = this.props;
 
