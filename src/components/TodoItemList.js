@@ -5,13 +5,17 @@ class TodoItemList extends Component {
   render() {
     const { todos, onToggle, onRemove } = this.props;
 
-    return (
-      <div>
-        <TodoItem text="Hi" />
-        <TodoItem text="React" />
-        <TodoItem text="Nice to meet you" />
-      </div>
-    );
+    const todoList = todos.map(({ id, text, checked }) => (
+      <TodoItem
+        id={id}
+        text={text}
+        checked={checked}
+        onToggle={onToggle}
+        onRemove={onRemove}
+        key={id}
+      />
+    ));
+    return <div>{todoList}</div>;
   }
 }
 
@@ -31,4 +35,17 @@ TodoItemList(Component) will receive 3 propss
 1. todos: todo
 2. onToggle: function to toggle checkbox
 3. onRemove: function to delete item
+
+    const todoList = todos.map(
+      (todo) => (
+        <TodoItem
+          {...todo}
+          onToggle={onToggle}
+          onRemove={onRemove}
+          key={todo.id}
+        />
+      )
+    );
+
+if use way above value inside todo will become props
 */
